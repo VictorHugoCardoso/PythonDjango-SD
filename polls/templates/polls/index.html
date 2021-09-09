@@ -47,17 +47,17 @@
         </div>
         <div class="mb-3">
             <label for="chavePublica" class="form-label">Chave Pública:</label>
-            <input type="password" class="form-control" id="chavePublica">
+            <textarea class="form-control" aria-label="With textarea" id='chavePublica'></textarea>
+            <!-- <input type="password" class="form-control" id="chavePublica"> -->
         </div>
         <div class="mb-3">
             <label for="chavePrivada" class="form-label">Chave Privada:</label>
-            <input type="password" class="form-control" id="chavePrivada">
+            <textarea class="form-control" aria-label="With textarea" id='chavePrivada'></textarea>
+            <!-- <input type="password" class="form-control" id="chavePrivada"> -->
         </div>
-        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="submit" class="btn btn-primary">Assinar</button>
     </form>
 </div>
-
-
 
 {% if latest_question_list %}
     <ul>
