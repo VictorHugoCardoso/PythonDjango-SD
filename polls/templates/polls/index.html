@@ -1,13 +1,33 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/core.min.js" integrity="sha512-t8vdA86yKUE154D1VlNn78JbDkjv3HxdK/0MJDMBUXUjshuzRgET0ERp/0MAgYS+8YD9YmFwnz6+FWLz1gRZaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js" integrity="sha512-3sGbaDyhjGb+yxqvJKi/gl5zL4J7P5Yh4GXzq+E9puzlmVkIctjf4yP6LfijOUvtoBI3p9pLKia9crHsgYDTUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.min.js" integrity="sha512-fv28nWHTcWfoN3KBd2fs+YWsirQ+L0b/iIRS7HcNDPSAwxy6oSjRrYjQ+OtJoJz0wUKsVcPYgwcZzK04KfHD0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-   var hash = CryptoJS.SHA256("Message");
-   alert(hash);
+
+    function changeFile(){
+        var message = $('#myfile').val();
+        
+        var SHA256 = CryptoJS.SHA256(message);
+        var MD5 = CryptoJS.MD5(message);
+        
+        $('#mytextareaMD5').val(MD5);
+        $('#mytextareaSHA256').val(SHA256);
+
+        console.log($('#myfile').prop('files')[0])
+        
+        var FReader = new FileReader();
+        FReader.readAsDataURL($('#myfile').prop('files')[0]);
+        FReader.onload = function(oFREvent) {
+            console.log(oFREvent.target.result);
+        };
+
+    }
+
 </script>
 
 <div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
@@ -16,7 +36,14 @@
         <h4>Assinar</h4>
         <div class="mb-3">
             <label for="myfile" class="form-label">Arquivo:</label>
-            <input type="file" class="form-control" id="myfile" name="myfile">
+            <input type="input" class="form-control" id="myfile" name="myfile" onchange="changeFile()">
+            <!-- <input type="file" class="form-control" id="myfile" name="myfile" onchange="changeFile()"> -->
+        </div>
+        <div class="mb-3">
+            <label for="mytextareaMD5" class="form-label">MD5:</label>
+            <textarea class="form-control" aria-label="With textarea" placeholder="Hashed" id='mytextareaMD5'></textarea>
+            <label for="mytextareaSHA256" class="form-label">SHA256:</label>
+            <textarea class="form-control" aria-label="With textarea" placeholder="Hashed" id='mytextareaSHA256'></textarea>
         </div>
         <div class="mb-3">
             <label for="chavePublica" class="form-label">Chave Pública:</label>
