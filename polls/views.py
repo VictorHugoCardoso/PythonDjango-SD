@@ -27,7 +27,8 @@ def assinarForm(request):
 
 def assinar(request):
     (pubkey, privkey) = rsa.newkeys(512)
-    context = {'pubkey': pubkey, 'privkey': privkey}
+    context = {'pubkey': pubkey.save_pkcs1(format="PEM"), 'privkey': privkey.save_pkcs1(format="PEM")}
+
     return render(request, 'polls/assinar.html', context)
 
 def index(request):
