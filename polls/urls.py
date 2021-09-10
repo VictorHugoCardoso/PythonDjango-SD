@@ -14,6 +14,9 @@ urlpatterns = [
     # ex: /polls/autenticar/
     path('autenticar/', views.autenticar, name='autenticar'),
 
+    # ex: /polls/autenticar/form/
+    path('autenticar/form/', views.autenticarForm, name='autenticarForm'),
+
     # ex: /polls/chaves/
     path('chaves/', views.chaves, name='chaves'),
 

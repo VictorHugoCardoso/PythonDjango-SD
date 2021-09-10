@@ -3,33 +3,33 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<html>
+    <header>    
+        <title>Autenticar Documento</title>
+    </header>
+    <body>
 
-<div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
-    <form>
-        <h1>Assinatura Digital</h1>
-        <h4>Autenticar</h4>
-        <div class="mb-3">
-            <label for="myfile" class="form-label">Arquivo:</label>
-            <input type="input" class="form-control" id="myfile" name="myfile" onchange="changeFile()">
-            <!-- <input type="file" class="form-control" id="myfile" name="myfile" onchange="changeFile()"> -->
-        </div>
-        <div class="mb-3">
-            <label for="chavePublica" class="form-label">Chave Pública (.pem):</label>
-            <input type="file" class="form-control" id="chavePublica" name="chavePublica">
-        </div>
+    <div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
+        <form method="POST" action="/polls/autenticar/form/">
+            <h1>Assinatura Digital</h1>
+            <h4>Autenticar</h4>
+            <div class="mb-3">
+                <label for="myfile" class="form-label">Arquivo:</label>
+                <input type="input" class="form-control" id="myfile" name="myfile">
+                <!-- <input type="file" class="form-control" id="myfile" name="myfile" onchange="changeFile()"> -->
+            </div>
+            <div class="mb-3">
+                <label for="assinatura" class="form-label">Assinatura Digital:</label>
+                <input type="file" class="form-control" id="assinatura" name="assinatura">
+            </div>
+            <div class="mb-3">
+                <label for="chavePublica" class="form-label">Chave Pública do Emissor (.pem):</label>
+                <input type="file" class="form-control" id="chavePublica" name="chavePublica">
+            </div>
 
-        <button type="button" class="btn btn-danger" onclick="location.href='/polls/';">Voltar</button>
-        <button type="submit" class="btn btn-primary">Autenticar</button>
-    </form>
-</div>
-
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+            <button type="button" class="btn btn-danger" onclick="location.href='/polls/';">Voltar</button>
+            <button type="submit" class="btn btn-primary">Autenticar</button>
+        </form>
+    </div>
+    </body>
+</html>

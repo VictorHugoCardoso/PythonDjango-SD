@@ -14,13 +14,41 @@ def chaves(request):
     return render(request, 'polls/chaves.html', context)
 
 def autenticar(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {'latest_question_list': latest_question_list}
-    return render(request, 'polls/autenticar.html', context)
+    return render(request, 'polls/autenticar.html')
 
+def autenticarForm(request):
+    mensagem = request.POST['myfile']
+    mensagem_encoded = mensagem.encode('utf-8')
+    chavePublicaPem = request.POST['chavePublica']
+    assinaturaFile = request.POST['assinatura']
+
+    print(mensagem_encoded)
+
+    with open('./chaves/'+chavePublicaPem, mode='rb') as privatefile:
+        keydata = privatefile.read()
+    rsaPublicKey = rsa.PublicKey.load_pkcs1(keydata)
+
+    with open('./chaves/'+assinaturaFile, mode='rb') as ass:
+        assinatura = ass.read()
+
+    print(rsa.verify(mensagem_encoded, assinatura, rsaPublicKey))
+
+    return HttpResponse("faio")
+
+def assinar(request):
+    (pubkey, privkey) = rsa.newkeys(512)
+
+    f1 = open('./chaves/privkey.pem', 'wb')
+    f1.write(privkey.save_pkcs1(format="PEM"))
+    f1.close()
+
+    f2 = open('./chaves/pubkey.pem', 'wb')
+    f2.write(pubkey.save_pkcs1(format="PEM"))
+    f2.close()
+
+    return render(request, 'polls/assinar.html')
 
 def assinarForm(request):
-
     mensagem = request.POST['myfile']
     mensagem_encoded = mensagem.encode('utf-8')
     chavePrivadaPem = request.POST['chavePrivada']
@@ -31,26 +59,14 @@ def assinarForm(request):
 
     hash = rsa.compute_hash(mensagem_encoded, 'SHA-256')
     signature = rsa.sign_hash(hash, rsaPrivateKey, 'SHA-256')
+    
+    f = open('./chaves/assinatura', 'wb')
+    f.write(signature)
+    f.close()
+    
+    html = "<html><body><h1>Assinado!</h1> <button onclick=location.href="+"'/polls/';>Menu Principal</button> </body></html>"
+    return HttpResponse(html)
 
-    #print(rsa.verify('teste'.encode('utf-8'), signature, rsaPublicKey))
-
-    m = assinado(mensagem = mensagem, privkey = rsaPrivateKey, signature = signature)
-    m.save()
-
-    return HttpResponse("Gravado! \n <button onclick=location.href="+"'/polls/';>Menu Principal</button>")
-
-def assinar(request):
-    (pubkey, privkey) = rsa.newkeys(512)
-
-    f1 = open('./privkey.pem', 'wb')
-    f1.write(privkey.save_pkcs1(format="PEM"))
-    f1.close()
-
-    f2 = open('./pubkey.pem', 'wb')
-    f2.write(pubkey.save_pkcs1(format="PEM"))
-    f2.close()
-
-    return render(request, 'polls/assinar.html')
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
