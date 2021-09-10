@@ -3,46 +3,28 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/core.min.js" integrity="sha512-t8vdA86yKUE154D1VlNn78JbDkjv3HxdK/0MJDMBUXUjshuzRgET0ERp/0MAgYS+8YD9YmFwnz6+FWLz1gRZaw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js" integrity="sha512-3sGbaDyhjGb+yxqvJKi/gl5zL4J7P5Yh4GXzq+E9puzlmVkIctjf4yP6LfijOUvtoBI3p9pLKia9crHsgYDTUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.min.js" integrity="sha512-fv28nWHTcWfoN3KBd2fs+YWsirQ+L0b/iIRS7HcNDPSAwxy6oSjRrYjQ+OtJoJz0wUKsVcPYgwcZzK04KfHD0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<html>
+    <header>    
+        <title>Assinar Documento</title>
+    </header>
+    <body>
 
-<script>
-    function changeFile(){
-        var message = $('#myfile').val();
-        
-        var SHA256 = CryptoJS.SHA256(message);
-        var MD5 = CryptoJS.MD5(message);
-        
-        $('#mytextareaMD5').val(MD5);
-        $('#mytextareaSHA256').val(SHA256);
-    }
-</script>
-
-<div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
-    <form method="POST" action="/polls/assinar/form/">
-        <h1>Assinatura Digital</h1>
-        <h4>Assinar</h4>
-        <div class="mb-3">
-            <label for="myfile" class="form-label">Arquivo:</label>
-            <input type="input" class="form-control" id="myfile" name="myfile" onchange="changeFile()">
-            <!-- <input type="file" class="form-control" id="myfile" name="myfile" onchange="changeFile()"> -->
-        </div>
-        <div class="mb-3">
-            <label for="mytextareaMD5" class="form-label">MD5:</label>
-            <textarea class="form-control" aria-label="With textarea" placeholder="Hashed" id='mytextareaMD5'></textarea>
-            <label for="mytextareaSHA256" class="form-label">SHA256:</label>
-            <textarea class="form-control" aria-label="With textarea" placeholder="Hashed" id='mytextareaSHA256'></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="chavePrivada" class="form-label">Chave Privada:</label>
-            <textarea class="form-control" aria-label="With textarea" id='chavePrivada' rows="10" name='chavePrivada'></textarea>
-            <!-- <input type="password" class="form-control" id="chavePrivada"> -->
-        </div>
-        <button type="button" class="btn btn-danger" onclick="location.href='/polls/';">Voltar</button>
-        <button type="submit" class="btn btn-primary">Assinar</button>
-    </form>
-</div>
-
-<li>{{ privkey }}</li>
-<li>{{ pubkey }}</li>
+    <div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
+        <form method="POST" action="/polls/assinar/form/">
+            <h1>Assinatura Digital</h1>
+            <h4>Assinar</h4>
+            <div class="mb-3">
+                <label for="myfile" class="form-label">Arquivo:</label>
+                <input type="input" class="form-control" id="myfile" name="myfile" onchange="changeFile()">
+                <!-- <input type="file" class="form-control" id="myfile" name="myfile" onchange="changeFile()"> -->
+            </div>
+            <div class="mb-3">
+                <label for="chavePrivada" class="form-label">Chave Privada (.pem):</label>
+                <input type="file" class="form-control" id="chavePrivada" name="chavePrivada">
+            </div>
+            <button type="button" class="btn btn-danger" onclick="location.href='/polls/';">Voltar</button>
+            <button type="submit" class="btn btn-primary">Assinar</button>
+        </form>
+    </div>
+    </body>
+</html>

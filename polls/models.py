@@ -3,6 +3,7 @@ from django.db import models
 class assinado(models.Model):
     mensagem = models.CharField(max_length=200)
     privkey = models.CharField(max_length=500)
+    signature = models.CharField(max_length=500)
 
     def __str__(self):
         return self.mensagem

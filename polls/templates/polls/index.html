@@ -7,32 +7,40 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/md5.min.js" integrity="sha512-3sGbaDyhjGb+yxqvJKi/gl5zL4J7P5Yh4GXzq+E9puzlmVkIctjf4yP6LfijOUvtoBI3p9pLKia9crHsgYDTUQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.min.js" integrity="sha512-fv28nWHTcWfoN3KBd2fs+YWsirQ+L0b/iIRS7HcNDPSAwxy6oSjRrYjQ+OtJoJz0wUKsVcPYgwcZzK04KfHD0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-<div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
-    <form>
-        <h1>Assinatura Digital</h1>
-        <h4>Menu Principal</h4>
-        <div class="list-group">
-            <button type="button" class="list-group-item btn btn-outline-primary" onclick="location.href='/polls/assinar/';" aria-current="true">
-                Assinar Documento
-            </button>
-            <button type="button" class="list-group-item btn btn-outline-warning" onclick="location.href='/polls/autenticar/';" aria-current="true"">
-                Autenticar Documento
-            </button>
-            <button type="button" class="list-group-item btn btn-outline-danger" onclick="location.href='/polls/chaves/';" aria-current="true">
-                Verificar Chaves
-            </button>
-          </div>
-    </form>
-</div>
+<html>
+    <header>    
+        <title>Index</title>
+    </header>
+    <body>
+        
+        <div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
+            <form>
+                <h1>Assinatura Digital</h1>
+                <h4>Menu Principal</h4>
+                <div class="list-group">
+                    <button type="button" class="list-group-item btn btn-outline-primary" onclick="location.href='/polls/assinar/';" aria-current="true">
+                        Assinar Documento
+                </button>
+                <button type="button" class="list-group-item btn btn-outline-warning" onclick="location.href='/polls/autenticar/';" aria-current="true"">
+                    Autenticar Documento
+                </button>
+                <button type="button" class="list-group-item btn btn-outline-danger" onclick="location.href='/polls/chaves/';" aria-current="true">
+                    Verificar Chaves
+                </button>
+            </div>
+        </form>
+    </div>
+    </body>
 
 {% if latest_question_list %}
-    <ul>
+<ul>
     {% for question in latest_question_list %}
-        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
+    <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
+    <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
     {% endfor %}
-    </ul>
+</ul>
 {% else %}
-    <p>No polls are available.</p>
+<p>No polls are available.</p>
 {% endif %}
+
+</html>
