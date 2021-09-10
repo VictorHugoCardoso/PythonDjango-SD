@@ -8,7 +8,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.min.js" integrity="sha512-fv28nWHTcWfoN3KBd2fs+YWsirQ+L0b/iIRS7HcNDPSAwxy6oSjRrYjQ+OtJoJz0wUKsVcPYgwcZzK04KfHD0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
-
     function changeFile(){
         var message = $('#myfile').val();
         
@@ -17,21 +16,11 @@
         
         $('#mytextareaMD5').val(MD5);
         $('#mytextareaSHA256').val(SHA256);
-
-        console.log($('#myfile').prop('files')[0])
-        
-        var FReader = new FileReader();
-        FReader.readAsDataURL($('#myfile').prop('files')[0]);
-        FReader.onload = function(oFREvent) {
-            console.log(oFREvent.target.result);
-        };
-
     }
-
 </script>
 
 <div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
-    <form>
+    <form method="POST" action="/polls/assinar/form/">
         <h1>Assinatura Digital</h1>
         <h4>Assinar</h4>
         <div class="mb-3">
@@ -47,7 +36,7 @@
         </div>
         <div class="mb-3">
             <label for="chavePrivada" class="form-label">Chave Privada:</label>
-            <textarea class="form-control" aria-label="With textarea" id='chavePrivada'></textarea>
+            <textarea class="form-control" aria-label="With textarea" id='chavePrivada' name='chavePrivada'></textarea>
             <!-- <input type="password" class="form-control" id="chavePrivada"> -->
         </div>
         <button type="button" class="btn btn-danger" onclick="location.href='/polls/';">Voltar</button>
@@ -55,13 +44,5 @@
     </form>
 </div>
 
-{% if latest_question_list %}
-    <ul>
-    {% for question in latest_question_list %}
-        <li><a href="/polls/{{ question.id }}/">{{ question.question_text }}</a></li>
-        <li><a href="{% url 'polls:detail' question.id %}">{{ question.question_text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+<li>{{ privkey }}</li>
+<li>{{ pubkey }}</li>

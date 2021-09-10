@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.urls import reverse
-
-from .models import Question
 import rsa
+
+from .models import assinado
+from .models import Question
+
 
 
 def chaves(request):
@@ -16,9 +18,16 @@ def autenticar(request):
     context = {'latest_question_list': latest_question_list}
     return render(request, 'polls/autenticar.html', context)
 
+
+def assinarForm(request):
+    m = assinado(mensagem = request.POST['myfile'], privkey = request.POST['chavePrivada'])
+    m.save()
+
+    return HttpResponse("Gravado! \n <button onclick=location.href="+"'/polls/';>Menu Principal</button>")
+
 def assinar(request):
-    latest_question_list = Question.objects.order_by('-pub_date')[:5]
-    context = {'latest_question_list': latest_question_list}
+    (pubkey, privkey) = rsa.newkeys(512)
+    context = {'pubkey': pubkey, 'privkey': privkey}
     return render(request, 'polls/assinar.html', context)
 
 def index(request):

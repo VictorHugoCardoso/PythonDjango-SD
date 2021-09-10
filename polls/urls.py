@@ -7,7 +7,10 @@ app_name = 'polls'
 urlpatterns = [
     # ex: /polls/assinar/
     path('assinar/', views.assinar, name='assinar'),
-    
+
+    # ex: /polls/assinar/
+    path('assinar/form/', views.assinarForm, name='assinarForm'),
+
     # ex: /polls/autenticar/
     path('autenticar/', views.autenticar, name='autenticar'),
 
