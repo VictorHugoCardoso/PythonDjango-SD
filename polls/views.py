@@ -22,8 +22,6 @@ def autenticarForm(request):
     chavePublicaPem = request.POST['chavePublica']
     assinaturaFile = request.POST['assinatura']
 
-    print(mensagem_encoded)
-
     with open('./chaves/'+chavePublicaPem, mode='rb') as privatefile:
         keydata = privatefile.read()
     rsaPublicKey = rsa.PublicKey.load_pkcs1(keydata)
@@ -31,9 +29,12 @@ def autenticarForm(request):
     with open('./chaves/'+assinaturaFile, mode='rb') as ass:
         assinatura = ass.read()
 
-    print(rsa.verify(mensagem_encoded, assinatura, rsaPublicKey))
-
-    return HttpResponse("faio")
+    try:
+        rsa.verify(mensagem_encoded, assinatura, rsaPublicKey)
+    except:
+        return HttpResponse("<html><body> <h1>Erro de Verificação!</h1> O documento foi <b>modificado</b> ou as chaves foram <b>alteradas.</b> <br><br> <button onclick=location.href="+"'/polls/';>Menu Principal</button> </body></html>")
+    else:
+        return HttpResponse("<html><body> <h1>Verificado!</h1> A assinatura do emissor é compatível! <br><br> <button onclick=location.href="+"'/polls/';>Menu Principal</button> </body></html>")
 
 def assinar(request):
     (pubkey, privkey) = rsa.newkeys(512)
