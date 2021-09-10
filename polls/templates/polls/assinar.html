@@ -12,11 +12,15 @@
     <div id="fileForm" class='d-flex justify-content-center' style='margin-top: 50px'>
         <form method="POST" action="/polls/assinar/form/">
             <h1>Assinatura Digital</h1>
-            <h4>Assinar</h4>
+            <h4>Assinar</h4>           
             <div class="mb-3">
                 <label for="myfile" class="form-label">Arquivo:</label>
-                <input type="input" class="form-control" id="myfile" name="myfile" onchange="changeFile()">
-                <!-- <input type="file" class="form-control" id="myfile" name="myfile" onchange="changeFile()"> -->
+                <!-- <input type="input" class="form-control" id="myfile" name="myfile">-->
+                <input type="file" class="form-control" id="myfile" name="myfile"> 
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Nome do Usuário:</label>
+                <input type="input" class="form-control" id="username" name="username">
             </div>
             <div class="mb-3">
                 <label for="chavePrivada" class="form-label">Chave Privada (.pem):</label>
