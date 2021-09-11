@@ -10,15 +10,15 @@ def chavesForm(request):
 
     import os
     try:
-        os.mkdir('./chaves/'+username)
+        os.mkdir('./usuarios/'+username)
     except: 
         print('Diretório Já existe')
     finally:
-        f1 = open('./chaves/'+username+'/privkey.pem', 'wb')
+        f1 = open('./usuarios/'+username+'/'+username+'_privkey.pem', 'wb')
         f1.write(privkey.save_pkcs1(format="PEM"))
         f1.close()
 
-        f2 = open('./chaves/'+username+'/pubkey.pem', 'wb')
+        f2 = open('./usuarios/'+username+'/'+username+'_pubkey.pem', 'wb')
         f2.write(pubkey.save_pkcs1(format="PEM"))
         f2.close()
 
@@ -31,11 +31,11 @@ def autenticarForm(request):
     assinaturaFile = request.POST['assinatura']
     usuario = request.POST['username']
 
-    with open('./chaves/'+usuario+'/'+chavePublicaPem, mode='rb') as privatefile:
+    with open('./usuarios/'+usuario+'/'+chavePublicaPem, mode='rb') as privatefile:
         keydata = privatefile.read()
     rsaPublicKey = rsa.PublicKey.load_pkcs1(keydata)
 
-    with open('./chaves/'+usuario+'/'+assinaturaFile, mode='rb') as ass:
+    with open('./usuarios/'+usuario+'/'+assinaturaFile, mode='rb') as ass:
         assinatura = ass.read()
 
     try:
@@ -47,19 +47,24 @@ def autenticarForm(request):
 
 def assinarForm(request):
     mensagem = request.POST['myfile']
-    mensagem_encoded = mensagem.encode('utf-8')
     chavePrivadaPem = request.POST['chavePrivada']
     usuario = request.POST['username']
 
-    with open('./chaves/'+usuario+'/'+chavePrivadaPem, mode='rb') as privatefile:
+    with open('./usuarios/'+usuario+'/'+chavePrivadaPem, mode='rb') as privatefile:
         keydata = privatefile.read()
     rsaPrivateKey = rsa.PrivateKey.load_pkcs1(keydata)
 
-    hash = rsa.compute_hash(mensagem_encoded, 'SHA-256')
-    print(hash)
-    signature = rsa.sign_hash(hash, rsaPrivateKey, 'SHA-256')
+    with open(mensagem, 'rb') as msgfile:
+        hash = rsa.compute_hash(msgfile, 'SHA-256')
+        print(hash)
+        signature = rsa.sign_hash(hash, rsaPrivateKey, 'SHA-256')
+
+        f = open('./usuarios/'+ usuario +'/'+mensagem, 'wb')
+        f.write(mensagem)
+        f.close()
+
     
-    f = open('./chaves/'+ usuario +'/assinatura', 'wb')
+    f = open('./usuarios/'+ usuario +'/assinatura_'+mensagem, 'wb')
     f.write(signature)
     f.close()
     
